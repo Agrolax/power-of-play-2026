@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
-import { site } from "@/content/site";
+import { canonical, site } from "@/content/site";
 import "./globals.css";
 
 /**
@@ -22,16 +22,28 @@ const inter = Inter({
   display: "swap",
 });
 
-/** Absolute OG/Twitter URLs must be hosted where this app actually runs.
- *  Netlify sets `DEPLOY_PRIME_URL` on branch and preview deploys and `URL` on
- *  production; locally neither exists, so fall back to the brand domain.
- *  Canonical `og:url` still uses `site.url` (the brand domain). */
+/**
+ * Absolute OG/Twitter image URLs must point at the host actually serving this
+ * build, or the card 404s.
+ *
+ * Netlify sets BOTH `URL` (the site's primary address) and `DEPLOY_PRIME_URL`
+ * (the address of this particular deploy) on every build, production included —
+ * where `DEPLOY_PRIME_URL` is the branch form, `https://main--<site>.netlify.app`.
+ * So it cannot simply be preferred: on production that is a deploy hostname, and
+ * it stays one even after a custom domain is attached. `CONTEXT` is what
+ * distinguishes them.
+ *
+ * Canonicals do not come from here at all — see `canonical()` in content/site.ts.
+ */
 const metadataBase = new URL(
-  process.env.DEPLOY_PRIME_URL ?? process.env.URL ?? site.url,
+  process.env.CONTEXT === "production"
+    ? (process.env.URL ?? site.url)
+    : (process.env.DEPLOY_PRIME_URL ?? process.env.URL ?? site.url),
 );
 
 export const metadata: Metadata = {
   metadataBase,
+  alternates: { canonical: canonical() },
   title: {
     default: `${site.name} — ${site.tagline}`,
     template: `%s — ${site.name}`,

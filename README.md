@@ -353,7 +353,9 @@ Google Forms has no plan to outgrow. Formspree's free tier is 50 submissions a m
 
 Set `draft: false` and drop the `PLACEHOLDER —` prefix when a string is client-approved.
 
-Brand facts that affect SEO (canonical URL, org JSON-LD, Open Graph `og:url`) all read `site.url` in `content/site.ts`. That stays `https://powerofplayinc.com` even while DNS still points at Squarespace. Share-card *images* use the host that actually serves this app (`DEPLOY_PRIME_URL`, falling back to `URL`, on Netlify), so LinkedIn does not 404 the OG image against the old Squarespace site.
+Brand facts that affect SEO (canonical URL, org JSON-LD, Open Graph `og:url`) all read `site.url` in `content/site.ts`. That stays `https://powerofplayinc.com` even while DNS still points at Squarespace. Share-card *images* use the host that actually serves this app, so LinkedIn does not 404 the OG image against the old Squarespace site.
+
+Those are two different questions and they are answered separately. `metadataBase` is *where this build is served from*: on Netlify, `URL` in the `production` context and `DEPLOY_PRIME_URL` otherwise, so deploy previews get their own host. A canonical is *which URL is the real one for this page*, and that is always the brand domain — so canonicals are built absolute by `canonical()` in `content/site.ts` rather than left relative. A relative canonical resolves against `metadataBase`, which is how every canonical on the site briefly came to point at `main--powerofplayinc.netlify.app`. Note that Netlify sets `DEPLOY_PRIME_URL` on production builds too (as the `main--…` branch form), so it cannot simply be preferred over `URL`; `CONTEXT` is what tells them apart.
 
 Team photos live in `public/team/`. Partner logos live in `public/logos/`. Brand artwork is in `public/brand/`: `logo-with-name.svg` (mark over the full name, used in the header) and `pop-wordmark.svg` (the "pop" mark on its own).
 
