@@ -4,12 +4,12 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { LinkedInIcon } from "@/components/shared/icons";
 import { Section, Eyebrow } from "@/components/shared/Section";
 import { contactCopy } from "@/content/contact";
-import { site } from "@/content/site";
+import { canonical, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: `Get in touch with ${site.name} about clinical partnerships, pilots, press or careers.`,
-  alternates: { canonical: "/contact" },
+  alternates: { canonical: canonical("/contact") },
 };
 
 export default function ContactPage() {
