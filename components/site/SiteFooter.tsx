@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/shared/icons";
-import Image from "next/image";
 import { nav, navCta, site } from "@/content/site";
+import { Logo } from "./Logo";
 
 function prefix(basePath: string, href: string) {
   if (!basePath) return href;
@@ -15,15 +15,9 @@ export function SiteFooter({ basePath = "" }: { basePath?: string }) {
       <div className="mx-auto max-w-[90rem] px-5 pb-12 pt-10 sm:px-8 lg:px-[clamp(2rem,7.5vw,7.5rem)] lg:pb-14 lg:pt-12">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            {/* The lockup with its lettering in cream — the PNG the header
-                uses has an opaque white field and would need a chip here. */}
-            <Image
-              src="/brand/logo-with-name-on-dark.svg"
-              alt={site.name}
-              width={313}
-              height={204}
-              className="h-16 w-auto lg:h-20"
-            />
+            {/* The same PNG as the header. Its own white field is the tile;
+                nothing is wrapped around it. */}
+            <Logo className="h-14 rounded-[var(--radius-sm)] lg:h-16" />
             <p className="mt-4 max-w-sm text-base text-ink-invert-dim">{site.tagline}.</p>
           </div>
 

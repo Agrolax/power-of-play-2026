@@ -5,7 +5,7 @@ import { NewsletterCard } from "./NewsletterCard";
 
 export function Hero() {
   return (
-    <section className="relative px-3 pb-6 pt-6 sm:px-5 lg:pb-8 lg:pt-8" aria-labelledby="hero-heading">
+    <section className="relative px-3 pb-6 pt-3 sm:px-5 sm:pt-5 lg:pb-8" aria-labelledby="hero-heading">
       <div className="on-forest relative mx-auto max-w-[88rem] overflow-hidden rounded-[var(--radius-lg)] bg-green-950 px-5 pb-16 pt-14 text-center shadow-hero sm:px-10 sm:pb-18 sm:pt-16 lg:px-16 lg:pb-20 lg:pt-18">
         <video
           autoPlay

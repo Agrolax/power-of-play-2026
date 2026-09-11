@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { nav, navCta } from "@/content/site";
 import { Logo } from "./Logo";
@@ -17,23 +16,47 @@ function isActive(pathname: string, href: string, homeHref: string) {
   return href === homeHref ? pathname === href : pathname.startsWith(href);
 }
 
-const linkClass =
-  "rounded-[var(--radius-pill)] px-3.5 py-2 font-display text-[0.9375rem] font-semibold transition-colors duration-200";
+const labelClass =
+  "rounded-[var(--radius-pill)] font-display text-[0.8125rem] font-bold uppercase tracking-[0.12em] transition-colors duration-200";
 
 /**
- * A quiet bar: small logo, two links, one button. The page below it carries
- * the colour; the header only has to stay out of the way and say where you are.
+ * A floating white bar, as the v2 concept had it: inset from the page edges,
+ * rounded, bordered, and it condenses once the page has scrolled. Solid white
+ * on purpose — the logo PNG carries a white field, and any tint or blur
+ * behind it would show that field as a rectangle.
+ *
+ * The scroll listener is passive and only flips a boolean, so it never reads
+ * layout.
  */
 export function SiteHeader({ basePath = "" }: { basePath?: string }) {
   const pathname = usePathname();
+  const [condensed, setCondensed] = useState(false);
   const [open, setOpen] = useState(false);
   const homeHref = prefix(basePath, "/");
 
+  useEffect(() => {
+    const onScroll = () => setCondensed(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-line-soft bg-surface/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-[90rem] items-center justify-between px-5 sm:px-8 lg:h-[4.5rem] lg:px-[clamp(2rem,7.5vw,7.5rem)]">
-        <Link href={homeHref} className="shrink-0 rounded-[var(--radius-sm)]">
-          <Logo className="h-9 lg:h-10" />
+    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-5">
+      <div
+        className={cn(
+          "mx-auto flex max-w-[88rem] items-center justify-between rounded-[var(--radius-lg)] border border-line-soft bg-surface",
+          "transition-[padding,box-shadow] duration-300 ease-[var(--ease-brand)]",
+          condensed ? "px-4 py-2 shadow-lift sm:px-5" : "px-4 py-3 sm:px-6",
+        )}
+      >
+        <Link href={homeHref} className="flex shrink-0 items-center rounded-[var(--radius-sm)]">
+          <Logo
+            className={cn(
+              "transition-[height] duration-300 ease-[var(--ease-brand)]",
+              condensed ? "h-9 lg:h-9" : "h-10 lg:h-11",
+            )}
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -47,7 +70,8 @@ export function SiteHeader({ basePath = "" }: { basePath?: string }) {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  linkClass,
+                  labelClass,
+                  "px-4 py-2.5",
                   active
                     ? "bg-green-50 text-forest"
                     : "text-ink-muted hover:bg-ground-soft hover:text-ink",
@@ -59,7 +83,10 @@ export function SiteHeader({ basePath = "" }: { basePath?: string }) {
           })}
           <Link
             href={prefix(basePath, navCta.href)}
-            className={cn(linkClass, "ml-3 bg-forest px-4.5 text-ink-invert hover:bg-green-700")}
+            className={cn(
+              labelClass,
+              "ml-2 bg-forest px-5 py-3 text-ink-invert hover:bg-green-400 hover:text-brand-ink",
+            )}
           >
             {navCta.label}
           </Link>
@@ -71,43 +98,43 @@ export function SiteHeader({ basePath = "" }: { basePath?: string }) {
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-nav"
-          className="-mr-2 cursor-pointer rounded-[var(--radius-sm)] p-2 text-forest md:hidden"
+          className={cn(
+            labelClass,
+            "cursor-pointer border border-line-soft px-4 py-2.5 text-forest hover:bg-ground-soft md:hidden",
+          )}
         >
-          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-          {open ? <X className="size-6" /> : <Menu className="size-6" />}
+          {open ? "Close" : "Menu"}
         </button>
       </div>
 
-      {/* Mobile panel */}
+      {/* Mobile panel — a second floating card under the bar */}
       <nav
         id="mobile-nav"
         aria-label="Main"
         hidden={!open}
-        className="border-t border-line-soft bg-surface px-5 pb-5 pt-2 md:hidden"
+        className="mx-auto mt-2 max-w-[88rem] rounded-[var(--radius-lg)] border border-line-soft bg-surface p-3 shadow-lift md:hidden"
       >
-        <ul className="flex flex-col">
+        <ul>
           {nav.map((item) => (
-            <li key={item.href}>
+            <li key={item.href} className="border-b border-line-soft last:border-0">
               <Link
                 href={prefix(basePath, item.href)}
                 onClick={() => setOpen(false)}
                 aria-current={isActive(pathname, prefix(basePath, item.href), homeHref) ? "page" : undefined}
-                className="block py-3 font-display text-lg font-semibold text-forest aria-[current=page]:text-green-600"
+                className="block px-2 py-4 font-display text-2xl font-bold text-forest aria-[current=page]:text-green-600"
               >
                 {item.label}
               </Link>
             </li>
           ))}
-          <li className="pt-3">
-            <Link
-              href={prefix(basePath, navCta.href)}
-              onClick={() => setOpen(false)}
-              className="block rounded-[var(--radius-pill)] bg-forest px-5 py-3 text-center font-display font-semibold text-ink-invert"
-            >
-              {navCta.label}
-            </Link>
-          </li>
         </ul>
+        <Link
+          href={prefix(basePath, navCta.href)}
+          onClick={() => setOpen(false)}
+          className={cn(labelClass, "mt-3 block bg-forest px-5 py-4 text-center text-ink-invert")}
+        >
+          {navCta.label}
+        </Link>
       </nav>
     </header>
   );
