@@ -35,79 +35,13 @@ Node 20+ is enough locally. Netlify builds on Node 22, pinned in `netlify.toml`.
 
 ---
 
-## Design concept: v2, and previewing both designs
+## The v2 design concept
 
-Branch `modern-redesign` carries a second, more modern design of the same three
-pages. Nothing is replaced — both designs are mounted at once, so the client can
-see them next to each other before anyone commits to one.
-
-```bash
-npm run dev
-```
-
-| | |
-| --- | --- |
-| **`/compare`** | **Both designs side by side.** Start here. |
-| `/` `/about` `/contact` | The current design, exactly as it was |
-| `/v2` `/v2/about` `/v2/contact` | The concept |
-
-`/compare` puts the two in iframes driven by one toolbar: switch page, switch
-rendered width (390 / 768 / 1280 / 1440, or *Fit* to let each frame be
-responsive at its own column width), and scroll them together. Scroll sync is
-proportional rather than pixel-for-pixel, because the two designs are different
-heights. Below 1024px it stacks the frames instead.
-
-### What actually differs
-
-Same three pages, same copy — every `PLACEHOLDER` in `content/` is still a
-placeholder in v2, and neither design invents a fact the other does not have.
-The brand anchors are also unchanged: the same lime `#8cda5a` and forest
-`#205929` from the Figma. What differs is the system around them.
-
-| | Current | v2 |
-| --- | --- | --- |
-| Ground | White | Warm paper, so lime reads as ink rather than as decoration |
-| Structure | Colour-block sections, 20px radii, squircles | Hairline rules, 2–8px edges; pills kept for accents only |
-| Problem section | Three equal cards | Numbered table on a near-black band |
-| Approach | Three equal cards | Sticky heading with the steps running past it |
-| Recognition | Four-at-a-time crossfade | Seamless marquee, pausable on hover and focus |
-| Small type | Display face | JetBrains Mono labels — the main "clinical" signal |
-| Lime | Nav CTA, hero pill, stat, closing button | Held back for accents and one full-bleed closing band |
-| Newsletter | Button that opens to reveal a field | Field shown, one underlined rule |
-
-### How it is wired
-
-`app/layout.tsx` is now only `<html>`/`<body>` plus fonts and JSON-LD. The
-current site moved into the `app/(v1)/` route group — a *group*, so the URLs are
-unchanged — and it brings its own header and footer via
-`components/site/SiteShell.tsx`. `app/v2/` has its own shell.
-
-`app/theme-v2.css` re-points the shared colour, radius and type tokens under a
-`.theme-v2` class. Anything inside that subtree written against the v1 token
-vocabulary (`bg-surface`, `text-ink`, `border-line`) comes out in the v2 palette
-without being forked — which is why `ContactForm` serves both designs from one
-component with a `variant` prop, and the two can never drift apart on
-validation, payload or error handling.
-
-`/v2` and `/compare` are `noindex` and disallowed in `robots.txt`: they serve the
-same copy as the live pages, and three URLs per page is an SEO problem. They are
-still reachable by URL on the deploy — that is the point — they just do not
-compete with the real pages in search.
-
-**The current design is untouched.** Not "should be": the prerendered HTML for
-`/`, `/about`, `/contact`, `/design-system` and the 404 was diffed between
-`origin/main` and this branch and is identical on all five, once React's Suspense
-boundary markers are ignored. Two things were needed to keep it that way — the
-v2 label font is declared in `lib/fonts.ts` and imported by the `/v2` and
-`/compare` layouts rather than the root layout, so the live pages still preload
-two font files and not three; and `ContactForm`'s `v1` skin holds the original
-class strings verbatim, including the missing `cursor-pointer` on its submit
-button. That is a real improvement v2 has and v1 does not, and it belongs in its
-own commit against the live design rather than arriving inside a redesign.
-
-**To ship v2:** move `app/v2/*` up into `app/(v1)/` (renaming the group), delete
-the old components, `app/theme-v2.css`, `app/compare/`, `components/compare/`,
-and the preview entries in `app/robots.ts`. **To drop it:** delete the branch.
+A second, more modern design of the same three pages was built and put in front
+of the client alongside this one. They chose this one. The concept is parked in
+[`_archive/v2/`](_archive/v2/README.md) — not built, not deployed — with notes on
+how to restore it. `/v1`, `/v2` and `/compare` all redirect to the live pages,
+because links to them may still be in the client's inbox.
 
 ---
 
@@ -175,11 +109,8 @@ The **Placeholder / Reworded / Needs source** badges that used to sit next to th
 | File | What is still placeholder |
 | --- | --- |
 | `content/home.ts` | Approach section (body + three steps); “Who we are” teaser; two of the three problem points |
-| `content/about.ts` | Story title and both paragraphs |
 | `content/team.ts` | Bios and pull-quotes for Deena and Rooaa (names, roles, photos are real). **Not currently rendered** — the About card shows photo, name and role only, so no placeholder prose is on the page. Re-add the paragraph to `components/about/TeamCard.tsx` once the real bios arrive |
-| `content/media.ts` | Years, links, and one-line summaries for every recognition entry; the iF Design Award row is **unverified** |
-
-The iF Design Award was cited in the brief, but the files named `iF-Logo_colour.*` are the **Innovation Factory** logo, not iF. Confirm the award was actually won (and supply artwork), or delete that row. Do not invent it.
+| `content/media.ts` | Three awards have no year yet (Synapse, Stu Clark, McMaster Showcase). No award has an `href` — the client wants each tile to open an article; set `href` and the tile becomes a link. Four awards have no logo artwork yet (Synapse, Stu Clark, Fowler / University of San Diego, McMaster Innovation Showcase) — each shows a placeholder mark until a file is added to `content/logos.ts` and its `logoId` set |
 
 The “1 in 16 / 63 million kids” figures in `content/home.ts` came from the Figma with no citation. Supply a source, or soften the claim before launch — see the `TODO(client)` above `problem`.
 
@@ -331,10 +262,9 @@ Google Forms has no plan to outgrow. Formspree's free tier is 50 submissions a m
 | `/about` | Story, team, recognition, contact CTA |
 | `/contact` | Form + mailto / LinkedIn aside |
 | `/design-system` | Internal brand reference. Unlisted, `noindex`, omitted from the sitemap |
-| `/v2`, `/v2/about`, `/v2/contact` | The v2 design concept. `noindex`, omitted from the sitemap |
-| `/compare` | Side-by-side viewer for the two designs. `noindex`, omitted from the sitemap |
+| `/v1/*`, `/v2/*`, `/compare` | Redirect to the live pages (`next.config.ts`) |
 
-`app/robots.ts` allows `/` and disallows `/design-system`, `/v2` and `/compare`. `app/sitemap.ts` lists Home, About, Contact against `site.url`.
+`app/robots.ts` allows `/` and disallows `/design-system`. `app/sitemap.ts` lists Home, About, Contact against `site.url`.
 
 ---
 
@@ -345,11 +275,10 @@ Google Forms has no plan to outgrow. Formspree's free tier is 50 submissions a m
 | `content/site.ts` | Name, legal name, canonical URL, tagline, email, LinkedIn, nav |
 | `content/home.ts` | Hero, newsletter copy, problem, approach, who-we-are teaser |
 | `content/about.ts` | Story |
-| `content/team.ts` | Team cards |
-| `content/media.ts` | Awards, programmes, press |
-| `content/logos.ts` | Partner / programme artwork |
+| `content/team.ts` | Team cards. Each photo can carry a `focus` (CSS `object-position`) and a `zoom` so the card crop keeps the face in frame |
+| `content/media.ts` | Awards. Ordered as the client asked: first-place wins, then second, then third |
+| `content/logos.ts` | Partner artwork for the home page strip, and award logos |
 | `content/contact.ts` | Where the forms send, contact reasons, contact page copy |
-| `content/v2.ts` | v2-only route helpers and labels. Restates existing facts; adds none |
 
 Set `draft: false` and drop the `PLACEHOLDER —` prefix when a string is client-approved.
 
@@ -366,19 +295,17 @@ The browser-tab icon is `app/icon.svg` — the wordmark centred on a forest tile
 ```
 app/                 routes, metadata, favicon, OG image, sitemap, robots
   layout.tsx         <html>/<body>, fonts, JSON-LD — no page chrome
-  (v1)/              the current design at /, /about, /contact
-  v2/                the design concept at /v2/*
-  compare/           side-by-side viewer
-  globals.css        design tokens (v1)
-  theme-v2.css       token overrides scoped to .theme-v2
-components/          UI — home, about, contact, site chrome, v2, compare
+  (site)/            the live pages at /, /about, /contact, plus /design-system
+  globals.css        design tokens
+components/          UI — home, about, contact, site chrome
 content/             all copy and site facts (edit here)
-lib/                 cn() helper, form delivery, the v2 label font
+lib/                 cn() helper, form delivery
 public/              logos, team photos, brand SVGs
 _prototype/          archived static bake-off (not deployed)
+_archive/v2/         the v2 design concept the client did not choose (not deployed)
 ```
 
-`_prototype/` never reaches the deployed site: Netlify publishes the `next build` output, and `_prototype/` is not under `public/`. It is the old HTML/CSS design exploration (Playroom, Playwell, Field Notebook, …). Do not ship it.
+Neither `_prototype/` nor `_archive/` reaches the deployed site: Netlify publishes the `next build` output, both are excluded from type-checking and lint, and neither is under `public/` or `app/`. `_prototype/` is the old HTML/CSS design exploration (Playroom, Playwell, Field Notebook, …); `_archive/v2/` is the redesign. Do not ship either.
 
 ---
 

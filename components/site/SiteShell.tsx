@@ -4,10 +4,11 @@ import { SiteFooter } from "./SiteFooter";
 import { SkipLink } from "./SkipLink";
 
 /**
- * The v1 page chrome — skip link, header, main landmark, footer.
+ * Page chrome — skip link, header, main landmark, footer.
  *
- * `basePath` prefixes internal nav so the archived design can live at `/v1`
- * without leaking into the live site.
+ * `basePath` prefixes internal nav; it exists so the design can be mounted
+ * under a preview prefix (as it was at `/v1`) without leaking into the live
+ * site. Unused on the live routes.
  */
 export function SiteShell({
   children,

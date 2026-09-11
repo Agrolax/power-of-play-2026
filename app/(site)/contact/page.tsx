@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Mail } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { LinkedInIcon } from "@/components/shared/icons";
+import { Section, Eyebrow } from "@/components/shared/Section";
 import { contactCopy } from "@/content/contact";
 import { site } from "@/content/site";
-import { Rail } from "@/components/v2/Rail";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -13,34 +13,46 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <section aria-labelledby="contact-heading" className="v2-dotfield pb-24 pt-14 sm:pt-20">
-      <Rail>
-        <h1 id="contact-heading" className="max-w-[14ch] text-d2 font-bold text-ink-warm">
-          {contactCopy.title}
-        </h1>
-        <p className="mt-7 max-w-xl text-lede leading-relaxed text-ink-warm-2">{contactCopy.lede}</p>
+    <Section labelledBy="contact-heading">
+      <div className="grid gap-16 lg:grid-cols-[1.3fr_1fr]">
+        <div>
+          <Eyebrow>{contactCopy.eyebrow}</Eyebrow>
+          <h1 id="contact-heading" className="mt-5 text-h1 text-ink">
+            {contactCopy.title}
+          </h1>
+          <p className="mt-6 max-w-xl text-lede text-ink-muted">{contactCopy.lede}</p>
 
-        <div className="mt-12 flex flex-wrap gap-x-10 gap-y-4 border-y border-line py-7">
-          <a
-            href={`mailto:${site.email}`}
-            className="inline-flex items-center gap-3 font-display text-lg font-bold text-ink-warm transition-colors duration-200 hover:text-green-700"
-          >
-            <Mail className="size-5 shrink-0" aria-hidden="true" />
-            {site.email}
-          </a>
-          <a
-            href={site.linkedin}
-            className="inline-flex items-center gap-3 font-display text-lg font-bold text-ink-warm transition-colors duration-200 hover:text-green-700"
-          >
-            <LinkedInIcon className="size-5" />
-            {site.name} on LinkedIn
-          </a>
+          <div className="mt-12">
+            <ContactForm />
+          </div>
         </div>
 
-        <div className="mt-16 max-w-2xl">
-          <ContactForm variant="v2" />
-        </div>
-      </Rail>
-    </section>
+        <aside className="lg:pt-24">
+          <div className="rounded-[var(--radius-lg)] border border-line-soft bg-ground-soft p-8">
+            <h2 className="text-h3 text-ink">Prefer not to use a form?</h2>
+            <ul className="mt-6 space-y-4">
+              <li>
+                <a
+                  href={`mailto:${site.email}`}
+                  className="inline-flex items-center gap-3 font-display font-bold text-forest underline-offset-4 hover:underline"
+                >
+                  <Mail className="size-5 shrink-0" aria-hidden="true" />
+                  {site.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={site.linkedin}
+                  className="inline-flex items-center gap-3 font-display font-bold text-forest underline-offset-4 hover:underline"
+                >
+                  <LinkedInIcon className="size-5 shrink-0" />
+                  Power of Play on LinkedIn
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </Section>
   );
 }

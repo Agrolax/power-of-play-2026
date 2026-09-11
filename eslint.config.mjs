@@ -12,8 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Archived static prototype — kept as design reference, not part of the build.
+    // Archived static prototype and the v2 design concept — kept as design
+    // reference, not part of the build.
     "_prototype/**",
+    "_archive/**",
   ]),
 ]);
 
