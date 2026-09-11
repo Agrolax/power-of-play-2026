@@ -304,6 +304,8 @@
     flex: 1 1 100%;
     flex-wrap: wrap;
     justify-content: center;
+    row-gap: 1.5rem;
+    padding-right: 0;
   }
   .recognition-carousel__track [data-recognition-clone] {
     display: none;

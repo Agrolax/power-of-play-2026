@@ -5,7 +5,7 @@ import { TeamCard } from "./TeamCard";
 
 export function TeamSection() {
   return (
-    <Section id="team" labelledBy="team-heading" className="bg-ground-soft">
+    <Section id="team" labelledBy="team-heading">
       <h2 id="team-heading" className="text-h2 text-ink">
         {teamSection.title}
       </h2>

@@ -1,13 +1,11 @@
 import Image from "next/image";
 import { problem } from "@/content/home";
-import { Section, Eyebrow } from "@/components/shared/Section";
+import { Section } from "@/components/shared/Section";
 
 export function ProblemSection() {
   return (
     <Section labelledBy="problem-heading" className="bg-ground-soft">
-      <Eyebrow>{problem.eyebrow}</Eyebrow>
-
-      <div className="mt-5 grid items-stretch gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:gap-14">
+      <div className="grid items-stretch gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:gap-14">
         <div className="flex flex-col items-start justify-center py-2 lg:py-8">
           <h2 id="problem-heading" className="max-w-3xl text-h2 text-ink">
             {problem.title}

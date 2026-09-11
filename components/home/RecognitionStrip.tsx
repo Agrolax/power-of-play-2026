@@ -3,7 +3,7 @@ import { LogoSpotlight } from "./LogoSpotlight";
 
 export function RecognitionStrip() {
   return (
-    <Section className="py-16 lg:py-20">
+    <Section className="py-12 sm:py-14 lg:py-16">
       <LogoSpotlight />
     </Section>
   );

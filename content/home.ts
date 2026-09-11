@@ -15,9 +15,8 @@ export const newsletter = {
   title: "Stay updated",
   body: "",
   placeholder: "Enter your email",
-  /** On the collapsed button, before the field is revealed. */
-  openLabel: "Get notified when we launch",
-  /** On the shortened button, once the field is showing. */
+  /** Small line above the field. */
+  prompt: "Get notified when we launch",
   submitLabel: "Notify me",
 } as const;
 
@@ -31,7 +30,6 @@ export const newsletter = {
  * no citation. Supply the source, or we soften the claim before launch.
  */
 export const problem = {
-  eyebrow: "What's at stake",
   title: "Fine motor difficulties affect 1 in 16 children's quality of life",
   stat: "That's 63 million kids globally",
   points: [
@@ -74,16 +72,20 @@ export const approach = {
   draft: false,
 } as const;
 
+/**
+ * Written from facts already on the About page (the two founders and the two
+ * advisors' fields) — no claim here that is not made there. It describes what
+ * the team is building at the level of the client's own About copy.
+ */
 export const whoWeAre = {
-  eyebrow: "Who we are",
   title: "A small team building for pediatric clinicians",
-  body: "PLACEHOLDER — two sentences introducing the founders and why they started Power of Play.",
+  body: "Power of Play is led by co-founders Deena Al-Sammak and Rooaa Shanshal, advised by an occupational therapist in hand therapy and a regulatory and quality expert. Together they are building a play-based way to measure a child’s grip and pinch strength.",
   cta: { label: "Meet the team", href: "/about" },
-  draft: true,
+  draft: false,
 } as const;
 
 export const contactCta = {
-  title: "Working in pediatric rehab?",
-  body: "We'd like to hear from you, whether that's a clinical partnership, a pilot, or just a conversation.",
+  title: "Talk to us about a pilot or a partnership",
+  body: "Clinical partnerships, pilots, press and careers. Tell us what you are after and we will reply.",
   cta: { label: "Get in touch", href: "/contact" },
 } as const;

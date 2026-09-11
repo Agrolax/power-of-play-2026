@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { LinkedInIcon } from "@/components/shared/icons";
+import Image from "next/image";
 import { nav, navCta, site } from "@/content/site";
-import { Logo } from "./Logo";
 
 function prefix(basePath: string, href: string) {
   if (!basePath) return href;
@@ -11,14 +11,20 @@ function prefix(basePath: string, href: string) {
 
 export function SiteFooter({ basePath = "" }: { basePath?: string }) {
   return (
-    <footer className="on-forest mt-24 bg-forest text-ink-invert lg:mt-32">
+    <footer className="on-forest mt-12 bg-forest text-ink-invert lg:mt-16">
       <div className="mx-auto max-w-[90rem] px-5 py-16 sm:px-8 lg:px-[clamp(2rem,7.5vw,7.5rem)] lg:py-20">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <div className="inline-block rounded-[var(--radius-md)] bg-cream-100 p-2">
-              <Logo className="h-14 lg:h-16" />
-            </div>
-            <p className="mt-5 max-w-sm text-lg text-ink-invert-dim">{site.tagline}.</p>
+            {/* The lockup with its lettering in cream — the PNG the header
+                uses has an opaque white field and would need a chip here. */}
+            <Image
+              src="/brand/logo-with-name-on-dark.svg"
+              alt={site.name}
+              width={313}
+              height={204}
+              className="h-16 w-auto lg:h-20"
+            />
+            <p className="mt-6 max-w-sm text-lg text-ink-invert-dim">{site.tagline}.</p>
           </div>
 
           <nav aria-labelledby="footer-site">

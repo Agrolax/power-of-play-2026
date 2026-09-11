@@ -47,7 +47,7 @@ because links to them may still be in the client's inbox.
 
 ## Next steps
 
-Do these in order before calling the site launched. The first three are infrastructure; the rest is copy the client still owes.
+Do these in order before calling the site launched. The first three are infrastructure; the rest is detail the client still owes.
 
 ### 1. Point `powerofplayinc.com` at this site
 
@@ -100,19 +100,16 @@ Both forms are wired to Google Forms and live. Enquiries land in **Power of Play
 
 Turn on **Responses → ⋮ → Get email notifications for new responses** in each form if the client wants an email per submission — otherwise the rows only accumulate in the Sheet. See **[Forms](#forms)** below for the setup and the trade-offs.
 
-### 4. Replace placeholder copy
+### 4. Copy — nothing placeholder is left on the page
 
-Anything still awaiting the client is marked `draft: true` in `content/` and reads `PLACEHOLDER — …` on the page. Do not launch with those strings live.
+Every `PLACEHOLDER —` string is gone. The About story is the client's own copy (11 Sep 2026); the home page "Who we are" teaser was written from facts already on the About page. What the client still owes is detail, not filler:
 
-The **Placeholder / Reworded / Needs source** badges that used to sit next to this copy were review scaffolding and have been removed from the public pages — the `PLACEHOLDER —` prefix already says the same thing without shouting at a client mid-demo. The badge component survives on `/design-system`, which is `noindex` and internal.
-
-| File | What is still placeholder |
+| File | Still needed |
 | --- | --- |
-| `content/home.ts` | Approach section (body + three steps); “Who we are” teaser; two of the three problem points |
-| `content/team.ts` | Bios and pull-quotes for Deena and Rooaa (names, roles, photos are real). **Not currently rendered** — the About card shows photo, name and role only, so no placeholder prose is on the page. Re-add the paragraph to `components/about/TeamCard.tsx` once the real bios arrive |
-| `content/media.ts` | Three awards have no year yet (Synapse, Stu Clark, McMaster Showcase). No award has an `href` — the client wants each tile to open an article; set `href` and the tile becomes a link. Four awards have no logo artwork yet (Synapse, Stu Clark, Fowler / University of San Diego, McMaster Innovation Showcase) — each shows a placeholder mark until a file is added to `content/logos.ts` and its `logoId` set |
+| `content/team.ts` | Bios and pull-quotes for Deena and Rooaa. The card omits the paragraph until there is one — set `bio`/`quote` and it appears |
+| `content/media.ts` | Years for Synapse, Stu Clark and McMaster Showcase. An `href` per award — the client wants each tile to open an article; set it and the tile becomes a link. Logo artwork for Synapse, Stu Clark, Fowler / University of San Diego and McMaster Innovation Showcase — each shows a placeholder mark until a file is added to `content/logos.ts` and its `logoId` set |
 
-The “1 in 16 / 63 million kids” figures in `content/home.ts` came from the Figma with no citation. Supply a source, or soften the claim before launch — see the `TODO(client)` above `problem`.
+The “1 in 16 / 63 million kids” figures in `content/home.ts` came from the Figma with no citation. Supply a source, or soften the claim — see the `TODO(client)` above `problem`.
 
 Copy lives in TypeScript modules under `content/`, not in the components. Edit those files and the pages update. They are shaped like a future Sanity `siteSettings` document so a CMS swap later does not rewrite the UI.
 
@@ -277,7 +274,7 @@ Google Forms has no plan to outgrow. Formspree's free tier is 50 submissions a m
 | `content/about.ts` | Story |
 | `content/team.ts` | Team cards. Each photo can carry a `focus` (CSS `object-position`) and a `zoom` so the card crop keeps the face in frame |
 | `content/media.ts` | Awards. Ordered as the client asked: first-place wins, then second, then third |
-| `content/logos.ts` | Partner artwork for the home page strip, and award logos |
+| `content/logos.ts` | Partner artwork for the home page strip, and award logos. Each logo can carry a `scale` so a square seal and a wide wordmark read at the same size on the strip |
 | `content/contact.ts` | Where the forms send, contact reasons, contact page copy |
 
 Set `draft: false` and drop the `PLACEHOLDER —` prefix when a string is client-approved.

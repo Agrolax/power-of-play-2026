@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { whoWeAre } from "@/content/home";
 import { founders } from "@/content/team";
 import { Section } from "@/components/shared/Section";
@@ -17,12 +16,13 @@ export function WhoWeAreTeaser({ basePath = "" }: { basePath?: string }) {
           <p className="mt-6 text-lede text-ink-muted">
             {whoWeAre.body}
           </p>
+          {/* A secondary destination, so it is set as a link rather than
+              dressed up as a third button on the page. */}
           <Link
             href={href}
-            className="mt-8 inline-flex items-center gap-2 rounded-[var(--radius-md)] bg-forest px-7 py-4 font-display text-lg font-bold text-ink-invert transition-[transform,box-shadow] duration-200 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:shadow-lift"
+            className="mt-8 inline-block font-display text-lg font-bold text-forest underline decoration-green-400 decoration-[3px] underline-offset-[6px] transition-colors duration-200 hover:text-green-600"
           >
             {whoWeAre.cta.label}
-            <ArrowRight className="size-5" aria-hidden="true" />
           </Link>
         </div>
 

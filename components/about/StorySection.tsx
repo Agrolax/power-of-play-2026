@@ -3,7 +3,7 @@ import { Section } from "@/components/shared/Section";
 
 export function StorySection() {
   return (
-    <Section labelledBy="story-heading">
+    <Section labelledBy="story-heading" className="pb-10 sm:pb-12 lg:pb-16">
       <div className="max-w-3xl">
         <h1 id="story-heading" className="text-h1 text-ink">
           {story.title}

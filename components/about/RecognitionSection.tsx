@@ -82,7 +82,7 @@ function AwardTile({ item }: { item: RecognitionItem }) {
  */
 export function RecognitionSection() {
   return (
-    <Section id="recognition" labelledBy="recognition-heading">
+    <Section id="recognition" labelledBy="recognition-heading" className="bg-ground-soft">
       <h2 id="recognition-heading" className="text-h2 text-ink">
         {sectionCopy.title}
       </h2>

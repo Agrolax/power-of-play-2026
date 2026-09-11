@@ -32,8 +32,9 @@ export type Member = {
 
 /**
  * Founders confirmed by the client. Advisor names and roles come from the
- * company's own pitch deck. Bios and quotes for Deena and Rooaa are still
- * PLACEHOLDER. Advisor one-liners restated from the pitch deck, not invented.
+ * company's own pitch deck, and their one-liners are restated from it, not
+ * invented. The founders have no bio or quote yet — the card simply omits the
+ * paragraph until the client supplies one; nothing is invented to fill it.
  */
 export const team: Member[] = [
   {
@@ -42,10 +43,9 @@ export const team: Member[] = [
     role: "Chief Executive Officer",
     kind: "founder",
     photo: { src: "/team/deena-al-sammak.webp", width: 1080, height: 1080 },
-    quote: "PLACEHOLDER — a one-line quote from Deena.",
-    bio: "PLACEHOLDER — two or three sentences on Deena's background and what she leads at Power of Play. Replace before launch.",
+    bio: "",
     linkedin: "https://www.linkedin.com/in/deena-al-sammak/",
-    draft: true,
+    draft: false,
   },
   {
     slug: "rooaa-shansal",
@@ -53,10 +53,9 @@ export const team: Member[] = [
     role: "Chief Operations Officer",
     kind: "founder",
     photo: { src: "/team/rooaa-shansal.jpg", width: 1365, height: 2048 },
-    quote: "PLACEHOLDER — a one-line quote from Rooaa.",
-    bio: "PLACEHOLDER — two or three sentences on Rooaa's background and what she leads at Power of Play. Replace before launch.",
+    bio: "",
     linkedin: "https://ca.linkedin.com/in/rooaashanshal",
-    draft: true,
+    draft: false,
   },
   {
     slug: "tara-packham",

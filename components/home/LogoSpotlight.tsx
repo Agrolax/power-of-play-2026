@@ -1,27 +1,30 @@
 import Image from "next/image";
 import { logos, recognitionLabel, type Logo } from "@/content/logos";
 
+/**
+ * One shared height and one constant gap. The logos used to sit centred in
+ * fixed-width slots, so a wide wordmark and a square seal left visibly
+ * different amounts of air on either side; the per-logo `scale` in
+ * content/logos.ts evens out their apparent size instead.
+ */
 function LogoTrack({ clone = false }: { clone?: boolean }) {
   return (
     <ul
       aria-hidden={clone || undefined}
       data-recognition-clone={clone || undefined}
-      className="flex shrink-0 items-center"
+      className="flex shrink-0 items-center gap-x-12 pr-12 sm:gap-x-16 sm:pr-16"
     >
       {logos.map((logo: Logo) => (
-        <li
-          key={logo.id}
-          className="flex min-h-28 w-[11rem] shrink-0 items-center justify-center px-6 sm:w-[14rem] lg:w-[16rem]"
-        >
-          <span className="relative h-11 w-full max-w-[10rem] sm:h-12">
-            <Image
-              src={logo.src}
-              alt={clone ? "" : logo.name}
-              fill
-              sizes="10rem"
-              className="object-contain"
-            />
-          </span>
+        <li key={logo.id} className="flex h-14 shrink-0 items-center">
+          <Image
+            src={logo.src}
+            alt={clone ? "" : logo.name}
+            width={logo.width}
+            height={logo.height}
+            sizes="12rem"
+            className="w-auto"
+            style={{ height: `calc(var(--logo-h) * ${logo.scale ?? 1})` }}
+          />
         </li>
       ))}
     </ul>
@@ -35,12 +38,12 @@ function LogoTrack({ clone = false }: { clone?: boolean }) {
  */
 export function LogoSpotlight() {
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-7 sm:flex-row sm:items-center sm:gap-10">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 [--logo-h:2rem] sm:flex-row sm:items-center sm:gap-12 sm:[--logo-h:2.5rem]">
       <p className="shrink-0 font-display text-eyebrow font-bold uppercase tracking-[0.18em] text-ink-muted">
         {recognitionLabel}
       </p>
 
-      <div className="recognition-carousel relative min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_7%,#000_93%,transparent)]">
+      <div className="recognition-carousel relative min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_2.5rem,#000_calc(100%-2.5rem),transparent)]">
         <div className="recognition-carousel__track flex w-max">
           <LogoTrack />
           <LogoTrack clone />

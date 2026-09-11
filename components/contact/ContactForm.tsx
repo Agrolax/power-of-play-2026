@@ -17,7 +17,7 @@ const skin = {
   choice:
     "flex cursor-pointer items-center gap-3 rounded-[var(--radius-md)] border-2 border-line bg-surface px-4 py-3 transition-colors hover:border-green-400 has-checked:border-green-600 has-checked:bg-green-50",
   submit:
-    "cursor-pointer rounded-[var(--radius-md)] bg-green-400 px-8 py-4 font-display text-lg font-bold text-forest transition-[transform,box-shadow] duration-200 ease-[var(--ease-brand)] hover:-translate-y-0.5 hover:shadow-lift disabled:cursor-default disabled:opacity-60",
+    "cursor-pointer rounded-[var(--radius-md)] bg-green-400 px-8 py-4 font-display text-lg font-bold text-brand-ink transition-colors duration-200 hover:bg-green-300 disabled:cursor-default disabled:opacity-60",
 } as const;
 
 export function ContactForm() {
