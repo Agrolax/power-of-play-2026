@@ -12,8 +12,8 @@ function prefix(basePath: string, href: string) {
 export function SiteFooter({ basePath = "" }: { basePath?: string }) {
   return (
     <footer className="on-forest mt-12 bg-forest text-ink-invert lg:mt-16">
-      <div className="mx-auto max-w-[90rem] px-5 py-16 sm:px-8 lg:px-[clamp(2rem,7.5vw,7.5rem)] lg:py-20">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="mx-auto max-w-[90rem] px-5 pb-12 pt-10 sm:px-8 lg:px-[clamp(2rem,7.5vw,7.5rem)] lg:pb-14 lg:pt-12">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             {/* The lockup with its lettering in cream — the PNG the header
                 uses has an opaque white field and would need a chip here. */}
@@ -24,7 +24,7 @@ export function SiteFooter({ basePath = "" }: { basePath?: string }) {
               height={204}
               className="h-16 w-auto lg:h-20"
             />
-            <p className="mt-6 max-w-sm text-lg text-ink-invert-dim">{site.tagline}.</p>
+            <p className="mt-4 max-w-sm text-base text-ink-invert-dim">{site.tagline}.</p>
           </div>
 
           <nav aria-labelledby="footer-site">
@@ -67,7 +67,7 @@ export function SiteFooter({ basePath = "" }: { basePath?: string }) {
           </div>
         </div>
 
-        <p className="mt-14 border-t border-green-700/50 pt-8 text-sm text-ink-invert-dim">
+        <p className="mt-10 border-t border-green-700/50 pt-6 text-sm text-ink-invert-dim">
           © {new Date().getFullYear()} {site.legalName}. All rights reserved.
         </p>
       </div>
