@@ -1,10 +1,11 @@
+/** Client copy, 11 Sep 2026 ("Website Copy" PDF). */
 export const story = {
-  title: "PLACEHOLDER — the one-line version of why Power of Play exists",
+  title: "Getting a grip on reshaping rehabilitation",
   paragraphs: [
-    "PLACEHOLDER — where the idea came from: the clinic, the classroom, or the conversation that started it.",
-    "PLACEHOLDER — what you set out to change, and what you have built so far.",
+    "All pediatric therapists have said the same thing; we don’t have a valid way of measuring a child’s hand grip and pinch strength.",
+    "That’s why we’ve built the Dinomometer, a play-based tool for objective hand strength measurement.",
   ],
-  draft: true,
+  draft: false,
 } as const;
 
 export const teamSection = {

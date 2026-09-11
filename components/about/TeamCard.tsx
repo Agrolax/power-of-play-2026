@@ -8,6 +8,9 @@ function isLive(text?: string) {
 }
 
 export function TeamCard({ member }: { member: Member }) {
+  const focus = member.photo?.focus ?? "50% 50%";
+  const zoom = member.photo?.zoom ?? 1;
+
   return (
     <li
       className={cn(
@@ -17,13 +20,26 @@ export function TeamCard({ member }: { member: Member }) {
     >
       {member.photo && (
         <div className="squircle-top relative aspect-[4/3] overflow-hidden md:aspect-auto md:squircle-left">
-          <Image
-            src={member.photo.src}
-            alt={`${member.name}, ${member.role}`}
-            fill
-            sizes="(min-width: 768px) 20rem, 100vw"
-            className="object-cover"
-          />
+          {/* The zoom scales a wrapper, not the image, so `object-position`
+              keeps meaning "where the subject is" and the enlarged picture
+              grows away from that same anchor. `sizes` is scaled to match,
+              or the browser would pick a file too small for the box. */}
+          <span
+            className="absolute inset-0 block"
+            style={{
+              transform: `scale(${zoom})`,
+              transformOrigin: focus,
+            }}
+          >
+            <Image
+              src={member.photo.src}
+              alt={`${member.name}, ${member.role}`}
+              fill
+              sizes={`(min-width: 768px) ${Math.ceil(20 * zoom)}rem, ${Math.ceil(100 * zoom)}vw`}
+              className="object-cover"
+              style={{ objectPosition: focus }}
+            />
+          </span>
         </div>
       )}
 

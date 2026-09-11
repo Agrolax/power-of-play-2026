@@ -5,7 +5,22 @@ export type Member = {
   name: string;
   role: string;
   kind: MemberKind;
-  photo: { src: string; width: number; height: number } | null;
+  photo: {
+    src: string;
+    width: number;
+    height: number;
+    /**
+     * CSS `object-position` — where the subject is in the frame. The card
+     * crops every photo to the same box, so a portrait with the head near the
+     * top edge needs `"50% 0%"` or the crop takes the top of the head off.
+     */
+    focus?: string;
+    /**
+     * Enlarge inside the frame, anchored at `focus`, for a photograph shot
+     * from further back than the others so the faces read at a similar size.
+     */
+    zoom?: number;
+  } | null;
   /** Short bio shown on the About card. */
   bio: string;
   /** Optional pull-quote, rendered above the bio on the card. */
@@ -48,7 +63,7 @@ export const team: Member[] = [
     name: "Dr Tara Packham",
     role: "Clinical Advisor",
     kind: "advisor",
-    photo: { src: "/team/tara_packham_photo.jpg", width: 1200, height: 1800 },
+    photo: { src: "/team/tara_packham_photo.jpg", width: 1200, height: 1800, focus: "50% 0%" },
     bio: "Occupational therapist in hand therapy. Clinical advisor to Power of Play.",
     linkedin: "https://www.linkedin.com/in/tara-packham-21918924/",
     draft: false,
@@ -58,7 +73,7 @@ export const team: Member[] = [
     name: "Megan Kane",
     role: "Regulatory & QA Expert",
     kind: "advisor",
-    photo: { src: "/team/megan-headshot.jpeg", width: 896, height: 1088 },
+    photo: { src: "/team/megan-headshot.jpeg", width: 896, height: 1088, focus: "50% 0%", zoom: 1.35 },
     bio: "Regulatory and quality assurance expert, and entrepreneur in residence.",
     linkedin: "https://www.linkedin.com/in/megankane1/",
     draft: false,

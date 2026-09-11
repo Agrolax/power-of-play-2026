@@ -1,11 +1,84 @@
 import Image from "next/image";
-import { groups, logoById, recognition, sectionCopy } from "@/content/media";
+import { ArrowUpRight, Award } from "lucide-react";
+import { groups, logoById, recognition, sectionCopy, type RecognitionItem } from "@/content/media";
 import { Section } from "@/components/shared/Section";
+import { cn } from "@/lib/utils";
 import { RecognitionCarousel } from "./RecognitionCarousel";
 
+const tileClass =
+  "flex h-full items-center gap-5 rounded-[var(--radius-lg)] border border-line-soft bg-surface p-6 shadow-card";
+
 /**
- * Awards & competitions, programmes & partners, and media features — the
- * "where we've been featured" section. Groups with no entries are skipped.
+ * One tile anatomy for every award — logo slot, placement, organisation —
+ * so the column of text lines up down the grid whether or not the logo has
+ * arrived yet. A tile with an `href` is a link to the article; the rest are
+ * static and do not pretend otherwise.
+ */
+function AwardTile({ item }: { item: RecognitionItem }) {
+  const logo = logoById(item.logoId);
+
+  const body = (
+    <>
+      <span className="flex h-12 w-24 shrink-0 items-center justify-center">
+        {logo ? (
+          <Image
+            src={logo.src}
+            alt=""
+            width={logo.width}
+            height={logo.height}
+            className="max-h-12 w-auto max-w-24 object-contain"
+          />
+        ) : (
+          // Stand-in until the artwork lands — see TODO(client) in content/media.ts.
+          <span
+            aria-hidden="true"
+            className="flex size-12 items-center justify-center rounded-full bg-green-50 text-green-700"
+          >
+            <Award className="size-6" strokeWidth={1.75} />
+          </span>
+        )}
+      </span>
+
+      <span className="min-w-0 flex-1">
+        <span className="block font-display font-bold text-ink">{item.title}</span>
+        <span className="mt-1 block text-sm text-ink-muted">
+          {item.org}
+          {item.year ? ` · ${item.year}` : ""}
+        </span>
+      </span>
+
+      {item.href && (
+        <ArrowUpRight
+          aria-hidden="true"
+          className="size-5 shrink-0 text-green-700 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+        />
+      )}
+    </>
+  );
+
+  if (!item.href) return <li className={tileClass}>{body}</li>;
+
+  return (
+    <li className="h-full">
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          tileClass,
+          "group cursor-pointer transition-[border-color,box-shadow] duration-200 hover:border-green-400 hover:shadow-lift",
+        )}
+      >
+        {body}
+        <span className="sr-only"> (opens in a new tab)</span>
+      </a>
+    </li>
+  );
+}
+
+/**
+ * Awards & competitions, and media features when there are any — the
+ * "where we've been recognised" section. Groups with no entries are skipped.
  */
 export function RecognitionSection() {
   return (
@@ -27,36 +100,9 @@ export function RecognitionSection() {
               <h3 className="font-display text-h3 text-forest">{group.label}</h3>
 
               <ul className="mt-6 grid gap-5 md:grid-cols-2">
-                {items.map((item) => {
-                  const logo = logoById(item.logoId);
-                  return (
-                    <li
-                      key={item.id}
-                      className="flex items-start gap-5 rounded-[var(--radius-lg)] border border-line-soft bg-surface p-6 shadow-card"
-                    >
-                      {logo && (
-                        <Image
-                          src={logo.src}
-                          alt=""
-                          width={logo.width}
-                          height={logo.height}
-                          className="h-10 w-24 shrink-0 object-contain"
-                        />
-                      )}
-
-                      <div className="min-w-0">
-                        <p className="font-display font-bold text-ink">{item.title}</p>
-                        <p className="mt-1 text-sm text-ink-muted">
-                          {item.org}
-                          {item.year ? ` · ${item.year}` : ""}
-                        </p>
-                        {item.summary && (
-                          <p className="mt-3 text-sm text-ink-muted">{item.summary}</p>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
+                {items.map((item) => (
+                  <AwardTile key={item.id} item={item} />
+                ))}
               </ul>
             </div>
           );
