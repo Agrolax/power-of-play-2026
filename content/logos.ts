@@ -81,3 +81,39 @@ export const logos: Logo[] = [
     scale: 1.1,
   },
 ];
+
+/**
+ * Logos that belong to an award tile on the About page but not to the home
+ * page strip — the client kept that strip to partners and programmes.
+ * Names read off the artwork, as above.
+ */
+export const awardLogos: Logo[] = [
+  {
+    id: "synapse",
+    name: "Synapse Life Science Competition",
+    src: "/logos/synapse.webp",
+    width: 1200,
+    height: 400,
+  },
+  {
+    id: "stu-clark",
+    name: "Stu Clark New Venture Championships",
+    src: "/logos/stu-clark.webp",
+    width: 1200,
+    height: 466,
+  },
+  {
+    id: "fowler-gsic",
+    name: "The Fowler Global Social Innovation Challenge",
+    src: "/logos/fowler-gsic.webp",
+    width: 300,
+    height: 290,
+  },
+  {
+    id: "mcmaster-entrepreneurship-academy",
+    name: "McMaster University Entrepreneurship Academy",
+    src: "/logos/mcmaster-entrepreneurship-academy.png",
+    width: 300,
+    height: 238,
+  },
+];

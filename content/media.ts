@@ -1,4 +1,4 @@
-import { logos, type Logo } from "./logos";
+import { awardLogos, logos, type Logo } from "./logos";
 
 export type RecognitionKind = "award" | "media";
 
@@ -20,7 +20,7 @@ export type RecognitionItem = {
 };
 
 export const logoById = (id?: string): Logo | undefined =>
-  logos.find((l) => l.id === id);
+  [...logos, ...awardLogos].find((l) => l.id === id);
 
 export const sectionCopy = {
   title: "Recognition",
@@ -40,12 +40,9 @@ export const groups: { kind: RecognitionKind; label: string }[] = [
 /**
  * The seven awards the client listed (11 Sep 2026), in the order they asked
  * for: first-place wins, then second, then third. Placements and prize
- * amounts restated from the photographs the company supplied; years only
- * where the artwork itself states a date.
+ * amounts restated from the photographs the company supplied; the remaining
+ * years and logos came from the client on 17 Sep 2026.
  *
- * TODO(client): logo artwork is still needed for Synapse, the Stu Clark
- * Centre, the Fowler GSIC / University of San Diego, and the McMaster
- * Innovation Showcase — add each to content/logos.ts and set `logoId`.
  * TODO(client): `href` for each award once they choose which article or
  * announcement a tile should open.
  */
@@ -55,7 +52,8 @@ export const recognition: RecognitionItem[] = [
     kind: "award",
     title: "1st Place",
     org: "Synapse Life Science Competition",
-    year: null,
+    year: "2025",
+    logoId: "synapse",
     draft: false,
   },
   {
@@ -93,7 +91,8 @@ export const recognition: RecognitionItem[] = [
     kind: "award",
     title: "1st Place, Video Pitch",
     org: "Stu Clark New Venture Pitch Challenge",
-    year: null,
+    year: "2026",
+    logoId: "stu-clark",
     photo: {
       src: "/images/awards/clark-centre.jpeg",
       alt: "First place video pitch award at the Stu Clark New Venture Pitch Challenge",
@@ -108,6 +107,7 @@ export const recognition: RecognitionItem[] = [
     title: "2nd Place, $15,000",
     org: "Fowler Global Social Innovation Challenge",
     year: "2026",
+    logoId: "fowler-gsic",
     photo: {
       src: "/images/awards/fowler-gsc.jpeg",
       alt: "Power of Play receiving a $15,000 ceremonial cheque at the Fowler Global Social Innovation Challenge",
@@ -136,7 +136,8 @@ export const recognition: RecognitionItem[] = [
     kind: "award",
     title: "People’s Choice Award",
     org: "McMaster Innovation Showcase",
-    year: null,
+    year: "2024",
+    logoId: "mcmaster-entrepreneurship-academy",
     draft: false,
   },
 ];

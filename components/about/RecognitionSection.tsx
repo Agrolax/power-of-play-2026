@@ -29,7 +29,7 @@ function AwardTile({ item }: { item: RecognitionItem }) {
             className="max-h-12 w-auto max-w-24 object-contain"
           />
         ) : (
-          // Stand-in until the artwork lands — see TODO(client) in content/media.ts.
+          // Stand-in for any award that has no logo artwork.
           <span
             aria-hidden="true"
             className="flex size-12 items-center justify-center rounded-full bg-green-50 text-green-700"
