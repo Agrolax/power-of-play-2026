@@ -52,7 +52,7 @@ export const team: Member[] = [
     name: "Rooaa Shanshal",
     role: "Chief Operations Officer",
     kind: "founder",
-    photo: { src: "/team/rooaa-shansal.jpg", width: 1365, height: 2048 },
+    photo: { src: "/team/rooaa-shansal.jpg", width: 1365, height: 2048, focus: "50% 0%" },
     bio: "",
     linkedin: "https://ca.linkedin.com/in/rooaashanshal",
     draft: false,
